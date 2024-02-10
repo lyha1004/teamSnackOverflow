@@ -1,13 +1,9 @@
-import xlrd
-from collections import OrderedDict
-import json
+import pandas as pd
 
-conoco_wb = xlrd.open_workbook("detailed-metrics-chart-by-country-6-15-23-2.xlsx")
-sh = conoco_wb.sheet_by_index(0)
+excel_file_path = 'Conoco_Phillips.xlsx'
 
-data_list = []
-for rownum in range(1,sh.nrows):
-    data = OrderedDict()
+excel_data = pd.read_excel(excel_file_path, engine='openpyxl')  
 
-row_values = sh.row_values(rownum)
-data['']
+json_str = excel_data.to_json()
+
+print('Excel Data:\n', json_str)
