@@ -3,13 +3,13 @@ import { useControls } from 'leva';
 
 export default function MyComponent() {
   const values = useControls({
-    select: { value: 'Filter', options: ['1', '2', '3'] },
+    Filter: { value: 'Filter', options: ['1', '2', '3'] },
   });
 
   const { Country } = useControls({ Country: 'Country Name' });
 
   const otherValues = useControls({
-    Information: { value: 'Text!', render: (get) => <div>{get()}</div> },
+    Information: { value: 'Text!', editable:false},
   });
 
   return (
