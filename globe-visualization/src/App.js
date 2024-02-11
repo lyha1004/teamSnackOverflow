@@ -7,6 +7,7 @@ function App() {
   const [searchInput, setSearchInput] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [countryDescription, setCountryDescription] = useState('');
+  const [filter, setFilter] = useState('');
 
   return (
     <div className='App'>
@@ -15,7 +16,7 @@ function App() {
         setSelectedCountry={setSelectedCountry}
         setCountryDescription={setCountryDescription}
       />
-      <GUI setSearchInput={setSearchInput} />
+      <GUI setSearchInput={setSearchInput} setFilter={setFilter}/>
       <CountryInfo
         CountryName={selectedCountry}
         countryDescription={countryDescription}

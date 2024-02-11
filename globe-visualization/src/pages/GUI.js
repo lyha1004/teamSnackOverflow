@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 import { useControls } from 'leva';
 
-export default function GUI({ setSearchInput }) {
+export default function GUI({ setSearchInput, setFilter }) {
   const values = useControls({
-    Filter: { value: 'Filter', options: ['1', '2', '3'] },
+    Filter: { value: '1', options: ['1', '2', '3'] },
   });
 
   const [{ Country }, set] = useControls(() => ({
     Country: 'Country Name',
   }));
 
-  const otherValues = useControls({
-    Information: { value: 'abcdefghijklmnopqrstuv\no', editable: false },
-  });
+  useEffect(() => {
+    setFilter(values['Filter']);
+    console.log(values['Filter']);
+  }, values['Filter']);
 
   useEffect(() => {
     setSearchInput(Country);

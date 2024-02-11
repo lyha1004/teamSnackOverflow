@@ -44,24 +44,23 @@ export default function Home({
 
     searchInput = searchInput.toLowerCase();
     let CountryName = '';
-    CountryName = Object.keys(ConocoData).find((key) =>
-      key.toLowerCase().includes(searchInput)
+    const acronymUsed = CountryCoords.find(
+      (loc) =>
+        loc.name.toLowerCase() === searchInput ||
+        loc.country.toLowerCase() === searchInput
     );
-    if (!CountryName) {
-      const acronymUsed = CountryCoords.find(
-        (loc) =>
-          loc.name.toLowerCase() === searchInput ||
-          loc.country.toLowerCase() === searchInput
-      );
-      if (acronymUsed) CountryName = acronymUsed.name;
-    } else {
-    }
-    if (!CountryName || CountryName == 'Titles') return;
+    if (acronymUsed) CountryName = acronymUsed.name;
+    let foundCountry = CountryName;
+    CountryName = Object.keys(ConocoData).find((key) =>
+      key.toLowerCase().includes(CountryName.toLowerCase())
+    );
+    if(!CountryName && foundCountry) CountryName = foundCountry;
+    if (!CountryName || CountryName == 'Titles') {return};
 
     setSelectedCountry(CountryName);
-    if(!ConocoData[CountryName]) {
-        setCountryDescription('ConocoPhilips has no recorded activity here.')
-        return;
+    if (!ConocoData[CountryName]) {
+      setCountryDescription('ConocoPhilips has no recorded activity here.');
+      return;
     }
     const labels = Object.values(ConocoData['Titles']);
     const vals = Object.values(ConocoData[CountryName]);

@@ -156,7 +156,7 @@ export default [
     name: 'France',
   },
   {
-    country: 'GB',
+    country: 'UK',
     latitude: 55.378051,
     longitude: -3.435973,
     name: 'United Kingdom',
