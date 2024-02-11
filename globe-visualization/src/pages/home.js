@@ -50,6 +50,16 @@ export default function Home({
   useEffect(() => {
     panToCountry(searchInput);
 
+    const CountryName = getSelected(searchInput);
+    setSelectedCountry(CountryName);
+    getDescription(CountryName);
+  }, [searchInput]);
+
+  useEffect(() => {
+    processColors();
+  }, [filter]);
+
+  const getSelected = (searchInput) => {
     searchInput = searchInput.toLowerCase();
     let CountryName = '';
     const acronymUsed = CountryCoords.find(
@@ -64,16 +74,18 @@ export default function Home({
     );
     if (!CountryName && foundCountry) CountryName = foundCountry;
     if (!CountryName || CountryName === 'Titles') {
-      return;
+      return "";
     }
+    return CountryName;
+  }
 
-    setSelectedCountry(CountryName);
-    if (!ConocoData[CountryName]) {
+  const getDescription = (country) => {
+    if (!ConocoData[country]) {
       setCountryDescription('ConocoPhilips has no recorded activity here.');
       return;
     }
     const labels = Object.values(ConocoData['Titles']);
-    const vals = Object.values(ConocoData[CountryName]);
+    const vals = Object.values(ConocoData[country]);
     const description = labels
       .map(
         (label, index) =>
@@ -81,11 +93,7 @@ export default function Home({
       )
       .join(' \n');
     setCountryDescription(description);
-  }, [searchInput]);
-
-  useEffect(() => {
-    processColors();
-  }, [filter]);
+  };
 
   const processColors = () => {
     let vals = Object.fromEntries(
@@ -194,6 +202,11 @@ export default function Home({
       polygonStrokeColor={() => '#111'}
       polygonLabel={labelEffect}
       onPolygonHover={hoverEffect}
+      onPolygonClick={(polygon) => {
+        const countryName = getSelected(polygon.properties.NAME);
+        setSelectedCountry(countryName);
+        getDescription(countryName);
+      }}
       polygonsTransitionDuration={200}
     />
   ) : (
