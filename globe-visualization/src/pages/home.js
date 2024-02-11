@@ -114,7 +114,7 @@ export default function Home({
       const green = Math.round((1 - normalizedValue) * 128);
       const red = Math.round(normalizedValue * 255);
       const blue = 0;
-      const alpha = 0.6;
+      const alpha = 0.75;
 
       return { [country]: `rgba(${red}, ${green}, ${blue}, ${alpha})` };
     });
