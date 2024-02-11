@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import BlueMarble from '../resources/globeImg.jpg';
 import Globe from 'react-globe.gl';
 import CountriesMap from '../data/worldmap.geojson';
+import CountryCoords from '../data/countryCoords.js';
 import ConocoData from '../data/conocoData.json';
 
 export default function Home() {
+  const globeRef = useRef();
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
 
@@ -20,7 +22,6 @@ export default function Home() {
         i++;
       }
     }
-    console.log(parsedData);
     return parsedData;
   };
 
@@ -33,6 +34,16 @@ export default function Home() {
         setCountries(countries);
       });
   }, []);
+
+  const panToCountry = (country) => {
+    const location = CountryCoords.find((loc) => loc.name === country);
+    console.log(location.latitude)
+
+    globeRef.current.pointOfView(
+      { lat: location.latitude, lng: location.longitude, altitude: 2 },
+      500
+    );
+  };
 
   const hoverEffect = (polygon) => {
     if (!polygon) {
@@ -79,6 +90,7 @@ export default function Home() {
 
   return countries ? (
     <Globe
+      ref={globeRef}
       globeImageUrl={BlueMarble}
       backgroundImageUrl='//unpkg.com/three-globe/example/img/night-sky.png'
       lineHoverPrecision={0}
