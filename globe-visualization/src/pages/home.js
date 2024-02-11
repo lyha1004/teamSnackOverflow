@@ -14,6 +14,7 @@ export default function Home({
   const globeRef = useRef();
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
+  const [colorMapping, setColorMapping] = useState({});
 
   const ConocoFilters = {};
   Object.keys(ConocoData['Titles']).forEach((key) => {
@@ -43,6 +44,7 @@ export default function Home({
       .then((countries) => {
         setCountries(countries);
       });
+    processColors();
   }, []);
 
   useEffect(() => {
@@ -80,6 +82,36 @@ export default function Home({
       .join(' \n');
     setCountryDescription(description);
   }, [searchInput]);
+
+  useEffect(() => {
+    processColors();
+  }, [filter]);
+
+  const processColors = () => {
+    let vals = Object.fromEntries(
+      Object.entries(ConocoData).map(([country, data]) => [
+        country,
+        data[ConocoFilters[filter]],
+      ])
+    );
+    delete vals['Titles'];
+    if (!vals) return;
+
+    const minValue = Math.min(...Object.values(vals));
+    const maxValue = Math.max(...Object.values(vals));
+
+    const colors = Object.entries(vals).map(([country, val]) => {
+      const normalizedValue = (val - minValue) / (maxValue - minValue);
+
+      const green = Math.round((1 - normalizedValue) * 128);
+      const red = Math.round(normalizedValue * 255);
+      const blue = 0;
+      const alpha = 0.6;
+
+      return { [country]: `rgba(${red}, ${green}, ${blue}, ${alpha})` };
+    });
+    setColorMapping(colors);
+  };
 
   const panToCountry = (country) => {
     country = country.toLowerCase();
@@ -151,7 +183,13 @@ export default function Home({
         conocoCountries.includes(d.properties.NAME)
       )}
       polygonAltitude={(d) => (hoveredPolygons.includes(d) ? 0.09 : 0.03)}
-      polygonCapColor={() => 'rgba(0, 100, 0, 0.65)'}
+      polygonCapColor={(feat) => {
+        for (const pair of colorMapping) {
+          for (const prop in pair) {
+            if (prop.includes(feat.properties.NAME)) return pair[prop];
+          }
+        }
+      }}
       polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
       polygonStrokeColor={() => '#111'}
       polygonLabel={labelEffect}
