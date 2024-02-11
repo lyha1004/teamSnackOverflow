@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRef } from 'react'; 
+import blueMarble from '../resources/globeImg.jpg'
 import Globe from 'react-globe.gl';
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
   return (
     <Globe
       ref={globeEl}
-      globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+      globeImageUrl={blueMarble}
     />
   );
 }
