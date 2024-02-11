@@ -72,13 +72,12 @@ export default function Home({
     CountryName = Object.keys(ConocoData).find((key) =>
       key.toLowerCase().includes(CountryName.toLowerCase())
     );
-    console.log(foundCountry);
     if (!CountryName && foundCountry) CountryName = foundCountry;
     if (!CountryName || CountryName === 'Titles') {
-      return "";
+      return '';
     }
     return CountryName;
-  }
+  };
 
   const getDescription = (country) => {
     if (!ConocoData[country]) {
