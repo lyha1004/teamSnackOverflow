@@ -12,7 +12,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((countries) => {
         setCountries(countries);
-        console.log('countries loaded');
       });
   }, []);
 
