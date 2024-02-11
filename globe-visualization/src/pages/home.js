@@ -72,6 +72,7 @@ export default function Home({
     CountryName = Object.keys(ConocoData).find((key) =>
       key.toLowerCase().includes(CountryName.toLowerCase())
     );
+    console.log(foundCountry);
     if (!CountryName && foundCountry) CountryName = foundCountry;
     if (!CountryName || CountryName === 'Titles') {
       return "";
@@ -204,6 +205,7 @@ export default function Home({
       onPolygonHover={hoverEffect}
       onPolygonClick={(polygon) => {
         const countryName = getSelected(polygon.properties.NAME);
+        panToCountry(polygon.properties.NAME);
         setSelectedCountry(countryName);
         getDescription(countryName);
       }}
