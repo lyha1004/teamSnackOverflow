@@ -40,8 +40,9 @@ export default function Home({searchInput}) {
   }, [searchInput]);
 
   const panToCountry = (country) => {
+    country = country.toLowerCase();
     const location = CountryCoords.find(
-      (loc) => loc.name === country || loc.country === country
+      (loc) => loc.name.toLowerCase() === country || loc.country.toLowerCase() === country
     );
     if(!location) return;
 
