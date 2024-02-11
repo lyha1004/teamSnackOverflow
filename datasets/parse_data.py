@@ -21,3 +21,8 @@ df = pd.DataFrame(excel_data)
 
 print(df)
 df.to_json('output.json', orient='columns')
+
+excel_file_2 = 'Conoco_Phillips_Date.xlsx'
+excel_data_2 = pd.read_excel(excel_file_2, engine='openpyxl')
+df2 = pd.DataFrame(excel_data_2)
+df2.to_json('output2.json', orient='columns')
