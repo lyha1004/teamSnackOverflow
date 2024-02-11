@@ -1,7 +1,7 @@
 import React from 'react';
 import { useControls } from 'leva';
 
-export default function MyComponent() {
+export default function GUI() {
   const values = useControls({
     Filter: { value: 'Filter', options: ['1', '2', '3'] },
   });

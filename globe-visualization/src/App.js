@@ -1,12 +1,12 @@
 import React from 'react';
 import Home from './pages/home'
-import MyComponent from './pages/GUI';
+import GUI from './pages/GUI';
 
 function App() {
   return (
     <div className='App'>
       <Home/>
-      <MyComponent/>
+      <GUI/>
     </div>
   );
 }
