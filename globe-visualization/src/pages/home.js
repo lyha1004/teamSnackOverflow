@@ -5,7 +5,11 @@ import CountriesMap from '../data/worldmap.geojson';
 import CountryCoords from '../data/countryCoords.js';
 import ConocoData from '../data/conocoData.json';
 
-export default function Home({searchInput}) {
+export default function Home({
+  searchInput,
+  setSelectedCountry,
+  setCountryDescription,
+}) {
   const globeRef = useRef();
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
@@ -37,14 +41,44 @@ export default function Home({searchInput}) {
 
   useEffect(() => {
     panToCountry(searchInput);
+
+    searchInput = searchInput.toLowerCase();
+    let CountryName = '';
+    CountryName = Object.keys(ConocoData).find((key) =>
+      key.toLowerCase().includes(searchInput)
+    );
+    if (!CountryName) {
+      const acronymUsed = CountryCoords.find(
+        (loc) =>
+          loc.name.toLowerCase() === searchInput ||
+          loc.country.toLowerCase() === searchInput
+      );
+      if (acronymUsed) CountryName = acronymUsed.name;
+    } else {
+    }
+    if (!CountryName || CountryName == 'Titles') return;
+
+    setSelectedCountry(CountryName);
+    if(!ConocoData[CountryName]) {
+        setCountryDescription('ConocoPhilips has no recorded activity here.')
+        return;
+    }
+    const labels = Object.values(ConocoData['Titles']);
+    const vals = Object.values(ConocoData[CountryName]);
+    const description = labels
+      .map((label, index) => `${label}: ${vals[index]}`)
+      .join(' \n');
+    setCountryDescription(description);
   }, [searchInput]);
 
   const panToCountry = (country) => {
     country = country.toLowerCase();
     const location = CountryCoords.find(
-      (loc) => loc.name.toLowerCase() === country || loc.country.toLowerCase() === country
+      (loc) =>
+        loc.name.toLowerCase() === country ||
+        loc.country.toLowerCase() === country
     );
-    if(!location) return;
+    if (!location) return;
 
     globeRef.current.pointOfView(
       { lat: location.latitude, lng: location.longitude, altitude: 2 },

@@ -11,13 +11,11 @@ export default function GUI({ setSearchInput }) {
   }));
 
   const otherValues = useControls({
-    Information: { value: 'Text!', editable: false },
+    Information: { value: 'abcdefghijklmnopqrstuv\no', editable: false },
   });
 
   useEffect(() => {
-    console.log(Country);
     setSearchInput(Country);
-    set({ Country: ''});
   }, [Country]);
 
   return <div></div>;

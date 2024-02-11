@@ -11,10 +11,10 @@
     "10": "Combustion Energy",
     "11": "Imported Electricity",
     "12": "Total Energy",
-    "15": "  Fresh Water Withdrawn (million cubic meters)",
-    "16": "  Non-Fresh Water Withdrawn (million cubic meters) 5 ",
-    "17": "  Produced Water Recycle/Reuse (million cubic meters) 6 ",
-    "18": "  Hydrocarbons in Overboard Discharges (tonnes)"
+    "15": "Fresh Water Withdrawn (MCM)",
+    "16": "Non-Fresh Water Withdrawn (MCM) 5 ",
+    "17": "Produced Water Recycle/Reuse (MCM) 6 ",
+    "18": "Hydrocarbons in Overboard Discharges (tonnes)"
   },
   "United States of America": {
     "0": null,
