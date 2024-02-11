@@ -7,9 +7,26 @@ import ConocoData from '../data/conocoData.json';
 export default function Home() {
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
-  let conocoCountries = Object.keys(ConocoData);
-  conocoCountries.shift();
-  conocoCountries.pop();
+
+  const getConocoCountries = (data) => {
+    let parsedData = Object.keys(data);
+    parsedData.shift();
+    parsedData.pop();
+
+    for (let i = 0; i < parsedData.length; i++) {
+        if (parsedData[i].includes("/")) {
+            const countries = parsedData[i].split("/");
+            parsedData.splice(i, 1, ...countries);
+            i++;
+        }
+    }
+    console.log(parsedData);
+    return parsedData;
+  };
+
+  let conocoCountries = getConocoCountries(ConocoData);
+
+  
 
   useEffect(() => {
     fetch(CountriesMap)
@@ -21,8 +38,8 @@ export default function Home() {
 
   const hoverEffect = (polygon) => {
     if (!polygon) {
-        setHoveredPolygons([]);
-        return;
+      setHoveredPolygons([]);
+      return;
     }
     const country = polygon.properties.NAME;
     if (country === 'Norway' || country === 'United Kingdom') {
@@ -51,14 +68,14 @@ export default function Home() {
       globeImageUrl={BlueMarble}
       backgroundImageUrl='//unpkg.com/three-globe/example/img/night-sky.png'
       lineHoverPrecision={0}
-      polygonsData={countries.features.filter(
-        (d) => d.properties.ISO_A2 !== 'AQ'
+      polygonsData={countries.features.filter((d) =>
+        conocoCountries.includes(d.properties.NAME)
       )}
       polygonAltitude={(d) => (hoveredPolygons.includes(d) ? 0.09 : 0.03)}
       polygonCapColor={() => 'rgba(0, 100, 0, 0.65)'}
       polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
       polygonStrokeColor={() => '#111'}
-      polygonLabel={() => 'Testing text'}
+      polygonLabel={(country) => ConocoData["Titles"][1] + ': ' + ConocoData[country.properties.NAME][1]}
       onPolygonHover={hoverEffect}
       polygonsTransitionDuration={200}
     />
