@@ -9,7 +9,7 @@ export default function MyComponent() {
   const { Country } = useControls({ Country: 'Country Name' });
 
   const otherValues = useControls({
-    Information: { value: 'Text!', render: (get) => <div>{get()}</div> },
+    Information: { value: 'Text!', editable:false},
   });
 
   return (
