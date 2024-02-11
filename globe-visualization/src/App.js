@@ -23,7 +23,7 @@ function App() {
         CountryName={selectedCountry}
         countryDescription={countryDescription}
       />
-      <LineGraph/>
+      <LineGraph filter={filter}/>
     </div>
   );
 }
