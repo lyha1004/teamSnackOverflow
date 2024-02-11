@@ -24,7 +24,7 @@ export default function GUI({ setSearchInput, setFilter }) {
   });
 
   const [{ Country }, set] = useControls(() => ({
-    Country: 'Country Name',
+    Country: ' ',
   }));
 
   useEffect(() => {
