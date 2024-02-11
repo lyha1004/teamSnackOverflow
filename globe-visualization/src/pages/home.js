@@ -14,19 +14,17 @@ export default function Home() {
     parsedData.pop();
 
     for (let i = 0; i < parsedData.length; i++) {
-        if (parsedData[i].includes("/")) {
-            const countries = parsedData[i].split("/");
-            parsedData.splice(i, 1, ...countries);
-            i++;
-        }
+      if (parsedData[i].includes('/')) {
+        const countries = parsedData[i].split('/');
+        parsedData.splice(i, 1, ...countries);
+        i++;
+      }
     }
     console.log(parsedData);
     return parsedData;
   };
 
   let conocoCountries = getConocoCountries(ConocoData);
-
-  
 
   useEffect(() => {
     fetch(CountriesMap)
@@ -63,6 +61,22 @@ export default function Home() {
     }
   };
 
+  const labelEffect = (country) => {
+    const name = country.properties.NAME;
+    if (ConocoData[name])
+      return (
+        ConocoData['Titles'][1] + ': ' + ConocoData[country.properties.NAME][1]
+      );
+    else {
+      const matchingKey = Object.keys(ConocoData).find((key) =>
+        key.includes(name)
+      );
+      return matchingKey
+        ? ConocoData['Titles'][1] + ': ' + ConocoData[matchingKey][1]
+        : undefined;
+    }
+  };
+
   return countries ? (
     <Globe
       globeImageUrl={BlueMarble}
@@ -75,7 +89,7 @@ export default function Home() {
       polygonCapColor={() => 'rgba(0, 100, 0, 0.65)'}
       polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
       polygonStrokeColor={() => '#111'}
-      polygonLabel={(country) => ConocoData["Titles"][1] + ': ' + ConocoData[country.properties.NAME][1]}
+      polygonLabel={labelEffect}
       onPolygonHover={hoverEffect}
       polygonsTransitionDuration={200}
     />
