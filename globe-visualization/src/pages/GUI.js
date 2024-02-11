@@ -1,10 +1,17 @@
-import { useControls } from 'leva'
+import React from 'react';
+import { useControls, Leva } from 'leva';
 
 export default function MyComponent() {
-    const {name, aNumber } = useControls({name : 'World', aNumber: 0})
+    const { Country } = useControls({ Country: 'Country Name'})
+    
+    const values = useControls({
+        select: {value: 'Filter', options: ['1','2','3']}
+    })
+    
 
-    return (
+    return(
         <div>
+            <pre>{JSON.stringify(values, null, ' ')}</pre>
         </div>
     )
 }
