@@ -5,7 +5,6 @@ export default function MyComponent() {
 
     return (
         <div>
-            Hey {name}, hello! {aNumber}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import countriesMap from '../data/worldmap.geojson';
 
 export default function Home() {
   const [countries, setCountries] = useState();
+  const [hoveredPolygon, setHoveredPolygon] = useState();
 
   useEffect(() => {
     fetch(countriesMap)
@@ -23,12 +24,13 @@ export default function Home() {
       polygonsData={countries.features.filter(
         (d) => d.properties.ISO_A2 !== 'AQ'
       )}
-      polygonAltitude={0.06}
+      polygonAltitude={(d) => (d === hoveredPolygon ? 0.09 : 0.03)}
+      polygonCapColor={() => 'rgba(0, 100, 0, 0.65)'}
       polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
       polygonStrokeColor={() => '#111'}
-      polygonLabel='testing'
-      onPolygonHover={(polygon) => console.log('polygon', polygon)}
-      polygonsTransitionDuration={10}
+      polygonLabel={() => 'Testing text'} 
+      onPolygonHover={(polygon) => setHoveredPolygon(polygon)}
+      polygonsTransitionDuration={200}
     />
   ) : (
     <div>Loading data...</div>
