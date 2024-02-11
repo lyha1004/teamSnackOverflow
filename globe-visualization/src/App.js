@@ -15,6 +15,7 @@ function App() {
         searchInput={searchInput}
         setSelectedCountry={setSelectedCountry}
         setCountryDescription={setCountryDescription}
+        filter={filter}
       />
       <GUI setSearchInput={setSearchInput} setFilter={setFilter}/>
       <CountryInfo

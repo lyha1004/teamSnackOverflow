@@ -3,7 +3,24 @@ import { useControls } from 'leva';
 
 export default function GUI({ setSearchInput, setFilter }) {
   const values = useControls({
-    Filter: { value: '1', options: ['1', '2', '3'] },
+    Filter: {
+      value: 'CO2 from Operations',
+      options: [
+        'CO2 from Operations',
+        'CO2 from Imported Electricity',
+        'Methane (CO2e)',
+        'Nitrous Oxide (CO2e)',
+        'Total Greenhouse Gases',
+        'Total Greenhouse Gas Intensity (kg CO2e/BOE)',
+        'Combustion Energy',
+        'Imported Electricity',
+        'Total Energy',
+        'Fresh Water Withdrawn (MCM)',
+        'Non-Fresh Water Withdrawn (MCM)',
+        'Produced Water Recycle/Reuse (MCM)',
+        'Hydrocarbons in Overboard Discharges (tonnes)'
+      ],
+    },
   });
 
   const [{ Country }, set] = useControls(() => ({
@@ -12,8 +29,7 @@ export default function GUI({ setSearchInput, setFilter }) {
 
   useEffect(() => {
     setFilter(values['Filter']);
-    console.log(values['Filter']);
-  }, values['Filter']);
+  }, [values['Filter']]);
 
   useEffect(() => {
     setSearchInput(Country);

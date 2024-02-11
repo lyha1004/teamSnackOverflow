@@ -9,10 +9,16 @@ export default function Home({
   searchInput,
   setSelectedCountry,
   setCountryDescription,
+  filter,
 }) {
   const globeRef = useRef();
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
+
+  const ConocoFilters = {};
+  Object.keys(ConocoData['Titles']).forEach((key) => {
+    ConocoFilters[ConocoData['Titles'][key]] = key;
+  });
 
   const getConocoCountries = (data) => {
     let parsedData = Object.keys(data);
@@ -54,8 +60,10 @@ export default function Home({
     CountryName = Object.keys(ConocoData).find((key) =>
       key.toLowerCase().includes(CountryName.toLowerCase())
     );
-    if(!CountryName && foundCountry) CountryName = foundCountry;
-    if (!CountryName || CountryName == 'Titles') {return};
+    if (!CountryName && foundCountry) CountryName = foundCountry;
+    if (!CountryName || CountryName === 'Titles') {
+      return;
+    }
 
     setSelectedCountry(CountryName);
     if (!ConocoData[CountryName]) {
@@ -65,7 +73,10 @@ export default function Home({
     const labels = Object.values(ConocoData['Titles']);
     const vals = Object.values(ConocoData[CountryName]);
     const description = labels
-      .map((label, index) => `${label}: ${vals[index]}`)
+      .map(
+        (label, index) =>
+          `${label}${vals[index] != null ? ': ' + vals[index] : ''}`
+      )
       .join(' \n');
     setCountryDescription(description);
   }, [searchInput]);
@@ -114,16 +125,18 @@ export default function Home({
 
   const labelEffect = (country) => {
     const name = country.properties.NAME;
-    if (ConocoData[name])
+    if (ConocoData[name]) {
       return (
-        ConocoData['Titles'][1] + ': ' + ConocoData[country.properties.NAME][1]
+        filter +
+        ': ' +
+        ConocoData[country.properties.NAME][ConocoFilters[filter]]
       );
-    else {
+    } else {
       const matchingKey = Object.keys(ConocoData).find((key) =>
         key.includes(name)
       );
       return matchingKey
-        ? ConocoData['Titles'][1] + ': ' + ConocoData[matchingKey][1]
+        ? filter + ': ' + ConocoData[matchingKey][ConocoFilters[filter]]
         : undefined;
     }
   };
