@@ -11,7 +11,6 @@ export default function MyComponent() {
 
     return(
         <div>
-            <pre>{JSON.stringify(values, null, ' ')}</pre>
         </div>
     )
 }
