@@ -5,7 +5,7 @@ import CountriesMap from '../data/worldmap.geojson';
 import CountryCoords from '../data/countryCoords.js';
 import ConocoData from '../data/conocoData.json';
 
-export default function Home() {
+export default function Home({searchInput}) {
   const globeRef = useRef();
   const [countries, setCountries] = useState();
   const [hoveredPolygons, setHoveredPolygons] = useState([]);
@@ -35,9 +35,15 @@ export default function Home() {
       });
   }, []);
 
+  useEffect(() => {
+    panToCountry(searchInput);
+  }, [searchInput]);
+
   const panToCountry = (country) => {
-    const location = CountryCoords.find((loc) => loc.name === country);
-    console.log(location.latitude)
+    const location = CountryCoords.find(
+      (loc) => loc.name === country || loc.country === country
+    );
+    if(!location) return;
 
     globeRef.current.pointOfView(
       { lat: location.latitude, lng: location.longitude, altitude: 2 },
