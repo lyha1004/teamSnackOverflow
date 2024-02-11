@@ -3,7 +3,7 @@ import { useControls } from 'leva';
 
 export default function MyComponent() {
   const values = useControls({
-    select: { value: 'Filter', options: ['1', '2', '3'] },
+    Filter: { value: 'Filter', options: ['1', '2', '3'] },
   });
 
   const { Country } = useControls({ Country: 'Country Name' });
