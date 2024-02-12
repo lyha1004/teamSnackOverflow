@@ -5,5 +5,5 @@ CodeRED Genesis 2024 - Path
 ### in the terminal
 type npm i to install all necessary libraries
 
-then simply type npm start
+then simply type npm start to see the project
 
